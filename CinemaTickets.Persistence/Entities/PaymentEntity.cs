@@ -1,0 +1,17 @@
+﻿
+namespace CinemaTickets.Persistence.Entities
+{
+    public class PaymentEntity
+    {
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
+        public string PaymentType { get; set; }
+        public decimal Amount { get; set; }
+        public decimal? ChangeGiven { get; set; }
+        public DateTime PaymentTime { get; set; }
+
+        public UserEntity User { get; set; }
+
+        public ICollection<TicketEntity> Tickets { get; set; }
+    }
+}
