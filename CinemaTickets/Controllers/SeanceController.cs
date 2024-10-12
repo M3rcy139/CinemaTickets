@@ -5,6 +5,8 @@ using CinemaTickets.Contracts;
 
 namespace CinemaTickets.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class SeanceController : ControllerBase
     {
         private readonly CinemaDbContext _context;
