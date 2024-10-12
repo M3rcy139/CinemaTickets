@@ -45,5 +45,15 @@ namespace CinemaTickets.Persistence.Repositories
             seat.IsAvailable = isAvailable;
             _context.SaveChanges();
         }
+
+        public async Task<decimal> GetSeatPrice(int seatId)
+        {
+            var price = await _context.Seats
+                .Where(s => s.Id == seatId)
+                .Select(s => s.Price)
+                .FirstOrDefaultAsync();
+
+            return price;
+        }
     }
 }

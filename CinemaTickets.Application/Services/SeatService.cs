@@ -27,5 +27,12 @@ namespace CinemaTickets.Application.Services
         {
             await _seatRepository.ChangeSeatStatus(seatId, isAvailable);
         }
+
+        public async Task<decimal> GetSeatPrice(int seatId)
+        {
+            var price = await _seatRepository.GetSeatPrice(seatId);
+
+            return price;
+        }
     }
 }

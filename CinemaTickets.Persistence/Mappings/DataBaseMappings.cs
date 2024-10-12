@@ -14,6 +14,7 @@ namespace CinemaTickets.Persistence.Mappings
             CreateMap<SeatEntity, Seat>();
             CreateMap<TicketEntity, Ticket>();
             CreateMap<UserEntity, User>();
+            CreateMap<IssueReportEntity, IssueReport>();
         }
         
     }

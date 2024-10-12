@@ -1,6 +1,4 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
 using CinemaTickets.Persistence.Entities;
 
 namespace CinemaTickets.Persistence.Repositories
@@ -22,8 +20,8 @@ namespace CinemaTickets.Persistence.Repositories
                 Message = message,
                 MessageTime = DateTime.Now,
             };
-            await _context.AddAsync(issueReportEntity);
-            _context.SaveChanges();
+            await _context.IssueReports.AddAsync(issueReportEntity);
+            await _context.SaveChangesAsync();
         }
     }
 }

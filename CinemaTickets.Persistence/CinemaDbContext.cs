@@ -11,6 +11,7 @@ namespace CinemaTickets.Persistence
         public DbSet<SeatEntity> Seats { get; set; }
         public DbSet<TicketEntity> Tickets { get; set; }
         public DbSet<UserEntity> Users { get; set; }
+        public DbSet<IssueReportEntity> IssueReports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
