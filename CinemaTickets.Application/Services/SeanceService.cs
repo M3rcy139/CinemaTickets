@@ -20,5 +20,12 @@ namespace CinemaTickets.Application.Services
 
             return halls;
         }
+
+        public async Task<List<Seance>> GetSeances()
+        {
+            var seances = await _seanceRepository.GetSeances();
+
+            return seances;
+        }
     }
 }

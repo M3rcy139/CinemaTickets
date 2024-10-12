@@ -1,6 +1,7 @@
 ﻿using CinemaTickets.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using CinemaTickets.Application.Interfaces.Services;
+using CinemaTickets.Contracts;
 
 namespace CinemaTickets.Controllers
 {
@@ -26,9 +27,17 @@ namespace CinemaTickets.Controllers
         [HttpGet("get-seances/hall/{hallId}/seance/{seanceId}")]
         public async Task<IActionResult> GetSeances(int hallId, ISeanceService seanceService)
         {
-            var halls = await seanceService.GetHalls();
+            var seances = await seanceService.GetSeances();
 
-            var response = halls.Select(h => h.Id).ToList();
+            var response = seances
+                .Select(s => new SeanceInfoResponse
+                (
+                    s.Id,
+                    s.FilmName,
+                    s.StartTime,
+                    s.EndTime,
+                    s.HallId
+                ));
 
             return Ok(response);
         }
