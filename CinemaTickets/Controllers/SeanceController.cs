@@ -1,7 +1,7 @@
 ﻿using CinemaTickets.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using CinemaTickets.Application.Interfaces.Services;
-using CinemaTickets.Contracts;
+using CinemaTickets.Contracts.Response;
 
 namespace CinemaTickets.Controllers
 {
@@ -9,13 +9,6 @@ namespace CinemaTickets.Controllers
     [ApiController]
     public class SeanceController : ControllerBase
     {
-        private readonly CinemaDbContext _context;
-
-        public SeanceController(CinemaDbContext context)
-        {
-            _context = context;
-        }
-
         [HttpGet("get-halls/{hallId}/seance/{seanceId}")]
         public async Task<IActionResult> GetHalls(ISeanceService seanceService)
         {

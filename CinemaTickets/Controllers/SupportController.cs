@@ -1,5 +1,4 @@
-﻿using CinemaTickets.Persistence;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using CinemaTickets.Application.Interfaces.Repositories;
 
 namespace CinemaTickets.Controllers
@@ -8,17 +7,10 @@ namespace CinemaTickets.Controllers
     [ApiController]
     public class SupportController : ControllerBase
     {
-        private readonly CinemaDbContext _context;
-
-        public SupportController(CinemaDbContext context)
-        {
-            _context = context;
-        }
-
         [HttpPost("report-issue")]
         public async Task<IActionResult> ReportIssue(string message, ISupportRepository supportRepository)
         {
-            supportRepository.ReportIssue(message);
+            await supportRepository.ReportIssue(message);
 
             return Ok("Сообщение успешно отправлено");
         }

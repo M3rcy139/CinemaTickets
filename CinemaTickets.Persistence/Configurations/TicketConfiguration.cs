@@ -15,11 +15,6 @@ namespace CinemaTickets.Persistence.Configurations
             builder.Property(t => t.IssueTime)
                 .IsRequired();
 
-            builder.HasOne(t => t.Seance)
-                .WithMany()
-                .HasForeignKey(t => t.SeanceId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             builder.HasOne(t => t.Seat)
                 .WithMany()
                 .HasForeignKey(t => t.SeatId)

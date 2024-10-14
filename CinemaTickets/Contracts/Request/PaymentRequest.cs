@@ -1,4 +1,4 @@
-﻿namespace CinemaTickets.Contracts
+﻿namespace CinemaTickets.Contracts.Request
 {
     public record PaymentRequest
     (

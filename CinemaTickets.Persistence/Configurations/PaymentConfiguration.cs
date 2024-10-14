@@ -30,6 +30,17 @@ namespace CinemaTickets.Persistence.Configurations
                 .WithMany(u => u.Payments)
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(p => p.Seats)
+                   .WithOne()  
+                   .HasForeignKey(s => s.Id)  
+                   .OnDelete(DeleteBehavior.Restrict); 
+
+            // Связь с билетами (TicketEntity)
+            builder.HasMany(p => p.Tickets)
+                   .WithOne(t => t.Payment)  
+                   .HasForeignKey(t => t.PaymentId)
+                   .OnDelete(DeleteBehavior.Cascade);  
         }
     }
 }

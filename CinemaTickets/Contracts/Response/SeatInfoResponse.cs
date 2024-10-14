@@ -1,4 +1,4 @@
-﻿namespace CinemaTickets.Contracts
+﻿namespace CinemaTickets.Contracts.Response
 {
     public record SeatInfoResponse
     (

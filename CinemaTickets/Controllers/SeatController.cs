@@ -1,20 +1,11 @@
 ﻿using CinemaTickets.Application.Interfaces.Services;
-using CinemaTickets.Contracts;
-using CinemaTickets.Core.Models;
-using CinemaTickets.Persistence;
+using CinemaTickets.Contracts.Response;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]
 [ApiController]
 public class SeatController : ControllerBase
 {
-    private readonly CinemaDbContext _context;
-
-    public SeatController(CinemaDbContext context)
-    {
-        _context = context;
-    }
-
     [HttpGet("allseats/hall/{hallId}/seance/{seanceId}")]
     public async Task<IActionResult> GetHallSeats(int hallId, int seanceId, ISeatService seatService)
     {

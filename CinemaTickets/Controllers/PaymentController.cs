@@ -2,7 +2,8 @@
 using CinemaTickets.Core.Models;
 using CinemaTickets.Persistence;
 using Microsoft.AspNetCore.Mvc;
-using CinemaTickets.Contracts;
+using CinemaTickets.Contracts.Response;
+using CinemaTickets.Contracts.Request;
 
 namespace CinemaTickets.Controllers
 {
@@ -10,16 +11,8 @@ namespace CinemaTickets.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly CinemaDbContext _context;
-
-        public PaymentController(CinemaDbContext context)
-        {
-            _context = context;
-        }
-
-        // Прием оплаты
         [HttpPost("pay")]
-        public IActionResult ProcessPayment([FromBody] PaymentRequest paymentRequest, ISeatService seatService,
+        public async Task<IActionResult> ProcessPayment([FromBody] PaymentRequest paymentRequest, ISeatService seatService,
             IPaymentService paymentService)
         {
             var user = new User
@@ -30,17 +23,39 @@ namespace CinemaTickets.Controllers
                 Email = paymentRequest.Email,
             };
  
-            var payment = paymentService.ProcessPayment
-                (user, paymentRequest.AmountPaid, paymentRequest.PaymentType, paymentRequest.SeatId).Result;
+            var payment = await paymentService.ProcessPayment
+                (user, paymentRequest.AmountPaid, paymentRequest.PaymentType, paymentRequest.SeatId);
 
             var response = new PaymentResponse
             (
                 payment.Id,
+                payment.SeatId,
                 payment.PaymentType,
                 payment.Amount,
                 payment.ChangeGiven,
                 payment.PaymentTime
 
+            );
+
+            return Ok(response);
+        }
+
+        [HttpPost("GetTicket")]
+        public async Task<IActionResult> GetTicket(Guid paymentId, IPaymentService paymentService)
+        {
+            var ticket = await paymentService.GetTicket(paymentId);
+
+            var response = new TicketResponse
+            (
+                ticket.HallName,
+                ticket.FilmName,
+                ticket.FilmStartTime,
+                ticket.RowNumber,
+                ticket.SeatNumber,
+                ticket.Price,
+                ticket.UserName,
+                ticket.UserSurname,
+                ticket.IssueTime
             );
 
             return Ok(response);
