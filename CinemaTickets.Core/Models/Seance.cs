@@ -10,5 +10,6 @@ namespace CinemaTickets.Core.Models
         public int HallId { get; set; }
 
         public Hall Hall { get; set; }
+        public ICollection<SeatAvailability> SeatAvailabilities { get; set; }
     }
 }

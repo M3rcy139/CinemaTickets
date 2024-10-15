@@ -11,17 +11,24 @@ namespace CinemaTickets.Application.Services
         {
             _seatRepository = seatRepository;
         }
-        public async Task<List<Seat>> GetHallSeats(int hallId, int seanceId)
+        public async Task<List<Seat>> GetHallSeats(int hallId)
         {
-            var seats = await _seatRepository.GetHallSeats(hallId, seanceId);
+            var seats = await _seatRepository.GetHallSeats(hallId);
 
             return seats;
         }
-        public async Task<Seat> GetSeatsInfo(int seatId)
+        public async Task<Seat> GetSeatsInfo(int seatId, int seanceId)
         {
-            var seat = await _seatRepository.GetSeatsInfo(seatId);
+            var seat = await _seatRepository.GetSeatsInfo(seatId, seanceId);
 
             return seat;
+        }
+
+        public async Task<SeatAvailability> GetSeatAvailability(int seatId, int seanceId)
+        {
+            var seatAvailability = await _seatRepository.GetSeatAvailability(seatId, seanceId);
+
+            return seatAvailability;
         }
         public async Task ChangeSeatStatus(int seatId, bool isAvailable)
         {

@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 public class SeatController : ControllerBase
 {
     [HttpGet("allseats/hall/{hallId}/seance/{seanceId}")]
-    public async Task<IActionResult> GetHallSeats(int hallId, int seanceId, ISeatService seatService)
+    public async Task<IActionResult> GetHallSeats(int hallId, ISeatService seatService)
     {
-        var seats = await seatService.GetHallSeats(hallId, seanceId);
+        var seats = await seatService.GetHallSeats(hallId);
 
         var response = seats.Select(s => s.Id);
 
@@ -17,9 +17,11 @@ public class SeatController : ControllerBase
     }
 
     [HttpGet("seat-info/{seatId}")]
-    public async Task<IActionResult> GetSeatsInfo(int seatId, ISeatService seatService)
+    public async Task<IActionResult> GetSeatsInfo(int seatId, int seanceId, ISeatService seatService)
     {
-        var seat = await seatService.GetSeatsInfo(seatId);
+        var seat = await seatService.GetSeatsInfo(seatId, seanceId);
+
+        var seatAvailability = await seatService.GetSeatAvailability(seatId, seanceId);
 
         var response = new SeatInfoResponse
         (
@@ -27,17 +29,9 @@ public class SeatController : ControllerBase
             seat.RowNumber, 
             seat.SeatNumber, 
             seat.Price, 
-            seat.IsAvailable
+            seatAvailability.IsAvailable
         );
 
         return Ok(response);
-    }
-
-    [HttpPut("seance/{seanceId}/seat/{seatId}/change-status")]
-    public async Task<IActionResult> ChangeSeatStatus(int seatId, bool isAvailable, ISeatService seatService)
-    {
-        await seatService.ChangeSeatStatus(seatId, isAvailable);
-
-        return Ok();
     }
 }

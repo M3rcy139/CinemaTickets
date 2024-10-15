@@ -10,5 +10,6 @@ namespace CinemaTickets.Persistence.Entities
         public int HallId { get; set; }
 
         public HallEntity Hall { get; set; }
+        public ICollection<SeatAvailabilityEntity> SeatAvailabilities { get; set; }
     }
 }

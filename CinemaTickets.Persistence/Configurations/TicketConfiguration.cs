@@ -20,10 +20,10 @@ namespace CinemaTickets.Persistence.Configurations
                 .HasForeignKey(t => t.SeatId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(t => t.User)
-                .WithMany(u => u.Tickets)
-                .HasForeignKey(t => t.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+            //builder.HasOne(t => t.User)
+            //    .WithMany(u => u.Tickets)
+            //    .HasForeignKey(t => t.UserId)
+            //    .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(t => t.Payment)
                 .WithMany(p => p.Tickets)

@@ -13,7 +13,7 @@ namespace CinemaTickets.Persistence.Entities
 
         public UserEntity User { get; set; }
 
-        public ICollection<SeatEntity> Seats { get; set; }
+        public ICollection<SeatAvailabilityEntity> SeatAvailabilities { get; set; }
         public ICollection<TicketEntity> Tickets { get; set; }
     }
 }

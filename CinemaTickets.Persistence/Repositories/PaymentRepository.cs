@@ -22,7 +22,13 @@ namespace CinemaTickets.Persistence.Repositories
         }
         public async Task<Payment> ProcessPayment(User user, decimal amountPaid, string paymentType, int seatId)
         {
-            var userEntity = _mapper.Map<UserEntity>(user);
+            var userEntity = new UserEntity
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Surname = user.Surname,
+                Email = user.Email,
+            };
 
             var totalCost = _seatService.GetSeatPrice(seatId).Result;
 
@@ -78,7 +84,7 @@ namespace CinemaTickets.Persistence.Repositories
                 SeatNumber = seat.SeatNumber,
                 UserName = user.Name,
                 UserSurname = user.Surname,
-                IssueTime = DateTime.Now,
+                IssueTime = DateTime.UtcNow,
                 Price = seat.Price,
                 PaymentId = paymentId
             };
@@ -90,7 +96,6 @@ namespace CinemaTickets.Persistence.Repositories
         {
             var ticket = await _context.Tickets
                 .Include(t => t.Seat)
-                .Include(t => t.User)
                 .Include(t => t.Payment)
                 .FirstOrDefaultAsync(t => t.PaymentId == paymentId);
 

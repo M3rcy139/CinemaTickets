@@ -16,16 +16,16 @@ namespace CinemaTickets.Persistence.Repositories
             _context = context;
             _mapper = mapper;
         }
-        public async Task<List<Seat>> GetHallSeats(int hallId, int seanceId)
+        public async Task<List<Seat>> GetHallSeats(int hallId)
         {
             var seats = await _context.Seats
-                            .Where(s => s.HallId == hallId && s.SeanceId == seanceId)
+                            .Where(s => s.HallId == hallId)
                             .ToListAsync();
 
             return _mapper.Map<List<Seat>>(seats);
         }
         
-        public async Task<Seat> GetSeatsInfo(int seatId)
+        public async Task<Seat> GetSeatsInfo(int seatId, int seanceId)
         {
             var seat = await _context.Seats
                             .FirstOrDefaultAsync(s => s.Id == seatId);
@@ -33,16 +33,24 @@ namespace CinemaTickets.Persistence.Repositories
             return _mapper.Map<Seat>(seat);
         }
 
+        public async Task<SeatAvailability> GetSeatAvailability(int seatId, int seanceId)
+        {
+            var seatAvailability = await _context.SeatAvailabilities
+                    .FirstOrDefaultAsync(s => s.SeatId == seatId && s.SeanceId == seanceId);
+
+            return _mapper.Map<SeatAvailability>(seatAvailability);
+        }
+
         public async Task ChangeSeatStatus(int seatId, bool isAvailable)
         {
-            var seat = await _context.Seats
-                           .Where(s => s.Id == seatId)
+            var seatAvailability = await _context.SeatAvailabilities
+                           .Where(s => s.SeatId == seatId && s.SeanceId == seanceId)
                            .FirstOrDefaultAsync();
 
-            if (seat == null)
+            if (seatAvailability == null)
                 throw new Exception("Место не найдено для указанного сеанса");
 
-            seat.IsAvailable = isAvailable;
+            seatAvailability.IsAvailable = isAvailable;
             _context.SaveChanges();
         }
 

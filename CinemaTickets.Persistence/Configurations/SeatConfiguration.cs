@@ -22,18 +22,10 @@ namespace CinemaTickets.Persistence.Configurations
                 .IsRequired()
                 .HasColumnType("decimal(18, 2)");
 
-            builder.Property(s => s.IsAvailable)
-                .IsRequired();
-
             builder.HasOne(s => s.Hall)
                 .WithMany(h => h.Seats)
                 .HasForeignKey(s => s.HallId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(s => s.Seance)
-              .WithOne()
-              .HasForeignKey<SeatEntity>(s => s.SeanceId)
-              .OnDelete(DeleteBehavior.Cascade);
         }
     }
 

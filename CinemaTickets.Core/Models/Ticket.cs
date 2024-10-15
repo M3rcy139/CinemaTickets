@@ -20,8 +20,6 @@ namespace CinemaTickets.Core.Models
 
         public Seat Seat { get; set; }
 
-        public User User { get; set; }
-
         public Payment Payment { get; set; }
     }
 

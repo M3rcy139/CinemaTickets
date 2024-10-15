@@ -9,7 +9,7 @@ namespace CinemaTickets.Controllers
     [ApiController]
     public class SeanceController : ControllerBase
     {
-        [HttpGet("get-halls/{hallId}/seance/{seanceId}")]
+        [HttpGet("get-halls")]
         public async Task<IActionResult> GetHalls(ISeanceService seanceService)
         {
             var halls = await seanceService.GetHalls();
@@ -19,7 +19,7 @@ namespace CinemaTickets.Controllers
             return Ok(response);
         }
 
-        [HttpGet("get-seances/hall/{hallId}/seance/{seanceId}")]
+        [HttpGet("get-seances/hall/{hallId}")]
         public async Task<IActionResult> GetSeances(int hallId, ISeanceService seanceService)
         {
             var seances = await seanceService.GetSeances();

@@ -31,10 +31,10 @@ namespace CinemaTickets.Persistence.Configurations
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(p => p.Seats)
-                   .WithOne()  
-                   .HasForeignKey(s => s.Id)  
-                   .OnDelete(DeleteBehavior.Restrict); 
+            builder.HasMany(p => p.SeatAvailabilities)
+              .WithOne(sa => sa.Payment)
+              .HasForeignKey(sa => sa.PaymentId)
+              .OnDelete(DeleteBehavior.SetNull);
 
             // Связь с билетами (TicketEntity)
             builder.HasMany(p => p.Tickets)

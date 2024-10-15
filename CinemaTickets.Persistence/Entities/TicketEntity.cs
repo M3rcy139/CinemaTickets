@@ -19,8 +19,6 @@ namespace CinemaTickets.Persistence.Entities
 
         public SeatEntity Seat { get; set; }
 
-        public UserEntity User { get; set; }
-
         public PaymentEntity Payment { get; set; }
     }
 }

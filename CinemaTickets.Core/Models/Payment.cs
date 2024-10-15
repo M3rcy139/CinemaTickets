@@ -13,7 +13,7 @@ namespace CinemaTickets.Core.Models
 
         public User User { get; set; }
 
-        public ICollection<Seat> Seats { get; set; }
+        public ICollection<SeatAvailability> SeatAvailabilities { get; set; }
         public ICollection<Ticket> Tickets { get; set; }
     }
 

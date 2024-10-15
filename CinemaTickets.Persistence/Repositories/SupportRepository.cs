@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using CinemaTickets.Application.Interfaces.Repositories;
 using CinemaTickets.Persistence.Entities;
 
 namespace CinemaTickets.Persistence.Repositories
 {
-    public class SupportRepository
+    public class SupportRepository : ISupportRepository
     {
         private readonly CinemaDbContext _context;
         private IMapper _mapper;
@@ -18,7 +19,7 @@ namespace CinemaTickets.Persistence.Repositories
             var issueReportEntity = new IssueReportEntity()
             {
                 Message = message,
-                MessageTime = DateTime.Now,
+                MessageTime = DateTime.UtcNow,
             };
             await _context.IssueReports.AddAsync(issueReportEntity);
             await _context.SaveChangesAsync();

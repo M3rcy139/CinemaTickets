@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using CinemaTickets.Application.Interfaces.Services;
+using CinemaTickets.Application.Services;
 
 namespace CinemaTickets.Application
 {
-    internal class ApplicationExtensions
+    public static class ApplicationExtensions
     {
+        public static IServiceCollection AddApplication(this IServiceCollection services)
+        {
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<ISeanceService, SeanceService>();
+            services.AddScoped<ISeatService, SeatService>();
+
+            return services;
+        }
     }
 }
