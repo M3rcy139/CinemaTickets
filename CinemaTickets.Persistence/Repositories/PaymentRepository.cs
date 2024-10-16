@@ -20,7 +20,8 @@ namespace CinemaTickets.Persistence.Repositories
             _mapper = mapper;
             _seatService = seatService;
         }
-        public async Task<Payment> ProcessPayment(User user, decimal amountPaid, string paymentType, int seatId)
+        public async Task<Payment> ProcessPayment(User user, decimal amountPaid, string paymentType, int seatId, 
+                int seanceId)
         {
             var userEntity = new UserEntity
             {
@@ -39,20 +40,16 @@ namespace CinemaTickets.Persistence.Repositories
 
             var paymentEntity = new PaymentEntity
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 UserId = user.Id,
                 SeatId = seatId,
                 Amount = amountPaid,
                 PaymentType = paymentType,
-                PaymentTime = DateTime.Now,
+                PaymentTime = DateTime.UtcNow,
                 ChangeGiven = changeGiven
             };
 
-            userEntity.Payments.Add(paymentEntity);
-
-            var ticketEntity = await GetInfoForTicket(user, seatId, paymentEntity.Id);
-            
-            paymentEntity.Tickets.Add(ticketEntity);
+            var ticketEntity = await GetInfoForTicket(user, seatId, seanceId, paymentEntity.Id);         
 
             await _context.Users.AddAsync(userEntity);
             await _context.Payments.AddAsync(paymentEntity);
@@ -62,20 +59,31 @@ namespace CinemaTickets.Persistence.Repositories
             return _mapper.Map<Payment>(paymentEntity);
         }
 
-        public async Task<TicketEntity> GetInfoForTicket(User user, int seatId, Guid paymentId)
+        public async Task SetSeatAvailabilities(int seatId, int seanceId, SeatAvailabilityEntity seatAvailability)
         {
             var seat = await _context.Seats
                 .FirstOrDefaultAsync(s => s.Id == seatId);
 
             var seance = await _context.Seances
-                .FirstOrDefaultAsync(s => s.Id == seat.SeanceId);
+                .FirstOrDefaultAsync(s => s.Id == seanceId);
+
+            seat?.SeatAvailabilities.Add(seatAvailability);
+            seance?.SeatAvailabilities.Add(seatAvailability);
+        }
+        public async Task<TicketEntity> GetInfoForTicket(User user, int seatId, int seanceId, Guid paymentId)
+        {
+            var seat = await _context.Seats
+                .FirstOrDefaultAsync(s => s.Id == seatId);
+
+            var seance = await _context.Seances
+                .FirstOrDefaultAsync(s => s.Id == seanceId);
 
             var hall = await _context.Halls
                 .FirstOrDefaultAsync(h => h.Id == seance.HallId);
 
             var ticketEntity = new TicketEntity
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 SeatId = seatId,
                 HallName = hall.Name,
                 FilmName = seance.FilmName,

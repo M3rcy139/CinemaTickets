@@ -41,7 +41,7 @@ namespace CinemaTickets.Persistence.Repositories
             return _mapper.Map<SeatAvailability>(seatAvailability);
         }
 
-        public async Task ChangeSeatStatus(int seatId, bool isAvailable)
+        public async Task ChangeSeatStatus(int seatId, int seanceId, bool isAvailable)
         {
             var seatAvailability = await _context.SeatAvailabilities
                            .Where(s => s.SeatId == seatId && s.SeanceId == seanceId)

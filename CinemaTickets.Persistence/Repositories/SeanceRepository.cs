@@ -23,10 +23,10 @@ namespace CinemaTickets.Persistence.Repositories
             return _mapper.Map<List<Hall>>(halls);
         }
 
-        public async Task<List<Seance>> GetSeances()
+        public async Task<List<Seance>> GetSeances(int hallId)
         {
             var seances = await _context.Seances
-                .Select(h => h)
+                .Where(s => s.HallId == hallId)
                 .ToListAsync();
 
             return _mapper.Map<List<Seance>>(seances);

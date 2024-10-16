@@ -7,6 +7,7 @@
         string Email,
         string PaymentType,
         decimal AmountPaid,
-        int SeatId
+        int SeatId,
+        int SeanceId
     );
 }

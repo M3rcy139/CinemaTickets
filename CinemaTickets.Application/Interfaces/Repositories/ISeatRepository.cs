@@ -9,7 +9,7 @@ namespace CinemaTickets.Application.Interfaces.Repositories
         Task<List<Seat>> GetHallSeats(int hallId);
         Task<Seat> GetSeatsInfo(int seatId, int seanceId);
         Task<SeatAvailability> GetSeatAvailability(int seatId, int seanceId);
-        Task ChangeSeatStatus(int seatId, bool isAvailable);
+        Task ChangeSeatStatus(int seatId, int seanceId, bool isAvailable);
         Task<decimal> GetSeatPrice(int seatId);
     }
 }

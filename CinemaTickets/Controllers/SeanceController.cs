@@ -14,7 +14,7 @@ namespace CinemaTickets.Controllers
         {
             var halls = await seanceService.GetHalls();
 
-            var response = halls.Select(h => h.Id).ToList();
+            var response = halls.Select(h => h).ToList();
 
             return Ok(response);
         }
@@ -22,7 +22,7 @@ namespace CinemaTickets.Controllers
         [HttpGet("get-seances/hall/{hallId}")]
         public async Task<IActionResult> GetSeances(int hallId, ISeanceService seanceService)
         {
-            var seances = await seanceService.GetSeances();
+            var seances = await seanceService.GetSeances(hallId);
 
             var response = seances
                 .Select(s => new SeanceInfoResponse

@@ -6,6 +6,6 @@ namespace CinemaTickets.Application.Interfaces.Repositories
     {
         Task<List<Hall>> GetHalls();
 
-        Task<List<Seance>> GetSeances();
+        Task<List<Seance>> GetSeances(int hallId);
     }
 }

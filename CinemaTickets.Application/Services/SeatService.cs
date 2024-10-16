@@ -30,9 +30,9 @@ namespace CinemaTickets.Application.Services
 
             return seatAvailability;
         }
-        public async Task ChangeSeatStatus(int seatId, bool isAvailable)
+        public async Task ChangeSeatStatus(int seatId, int seanceId, bool isAvailable)
         {
-            await _seatRepository.ChangeSeatStatus(seatId, isAvailable);
+            await _seatRepository.ChangeSeatStatus(seatId, seanceId, isAvailable);
         }
 
         public async Task<decimal> GetSeatPrice(int seatId)

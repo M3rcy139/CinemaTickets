@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 [ApiController]
 public class SeatController : ControllerBase
 {
-    [HttpGet("allseats/hall/{hallId}/seance/{seanceId}")]
+    [HttpGet("allseats/hall/{hallId}")]
     public async Task<IActionResult> GetHallSeats(int hallId, ISeatService seatService)
     {
         var seats = await seatService.GetHallSeats(hallId);
@@ -16,7 +16,7 @@ public class SeatController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("seat-info/{seatId}")]
+    [HttpGet("seat-info/seat{seatId}/seance/{seanceId}")]
     public async Task<IActionResult> GetSeatsInfo(int seatId, int seanceId, ISeatService seatService)
     {
         var seat = await seatService.GetSeatsInfo(seatId, seanceId);

@@ -14,11 +14,12 @@ namespace CinemaTickets.Application.Services
             _seatService = seatService;
         }
         
-        public async Task<Payment> ProcessPayment(User user, decimal amountPaid, string paymentType, int seatId)
+        public async Task<Payment> ProcessPayment(User user, decimal amountPaid, string paymentType, int seatId,
+            int seanceId)
         {
-            var payment = await _paymentRepository.ProcessPayment(user, amountPaid, paymentType, seatId);
+            var payment = await _paymentRepository.ProcessPayment(user, amountPaid, paymentType, seatId, seanceId);
 
-            await _seatService.ChangeSeatStatus(seatId, false);
+            await _seatService.ChangeSeatStatus(seatId, seanceId, false);
 
             return payment;
         }

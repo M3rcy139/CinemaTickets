@@ -21,9 +21,9 @@ namespace CinemaTickets.Application.Services
             return halls;
         }
 
-        public async Task<List<Seance>> GetSeances()
+        public async Task<List<Seance>> GetSeances(int hallId)
         {
-            var seances = await _seanceRepository.GetSeances();
+            var seances = await _seanceRepository.GetSeances(hallId);
 
             return seances;
         }

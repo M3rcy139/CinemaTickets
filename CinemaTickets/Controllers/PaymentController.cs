@@ -17,14 +17,15 @@ namespace CinemaTickets.Controllers
         {
             var user = new User
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Name = paymentRequest.Name,
                 Surname = paymentRequest.Surname,
                 Email = paymentRequest.Email,
             };
  
             var payment = await paymentService.ProcessPayment
-                (user, paymentRequest.AmountPaid, paymentRequest.PaymentType, paymentRequest.SeatId);
+                (user, paymentRequest.AmountPaid, paymentRequest.PaymentType, paymentRequest.SeatId,
+                    paymentRequest.SeanceId);
 
             var response = new PaymentResponse
             (
