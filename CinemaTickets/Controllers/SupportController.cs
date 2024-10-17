@@ -10,9 +10,16 @@ namespace CinemaTickets.Controllers
         [HttpPost("report-issue")]
         public async Task<IActionResult> ReportIssue(string message, ISupportRepository supportRepository)
         {
-            await supportRepository.ReportIssue(message);
+            try
+            {
+                await supportRepository.ReportIssue(message);
 
-            return Ok("Сообщение успешно отправлено");
+                return Ok("Сообщение успешно отправлено");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = "An unexpected error occurred.", details = ex.Message });
+            }
         }
     }
 }

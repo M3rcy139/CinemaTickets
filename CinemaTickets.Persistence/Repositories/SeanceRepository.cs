@@ -20,6 +20,9 @@ namespace CinemaTickets.Persistence.Repositories
                 .Select(h => h)
                 .ToListAsync();
 
+            if (!halls.Any())
+                throw new ArgumentException("Ни одного зала не найдено");
+
             return _mapper.Map<List<Hall>>(halls);
         }
 
@@ -28,6 +31,8 @@ namespace CinemaTickets.Persistence.Repositories
             var seances = await _context.Seances
                 .Where(s => s.HallId == hallId)
                 .ToListAsync();
+
+            if (!seances.Any()) throw new ArgumentException($"Сеансов для данного зала ({hallId}) не найдено");
 
             return _mapper.Map<List<Seance>>(seances);
         }

@@ -59,27 +59,19 @@ namespace CinemaTickets.Persistence.Repositories
             return _mapper.Map<Payment>(paymentEntity);
         }
 
-        public async Task SetSeatAvailabilities(int seatId, int seanceId, SeatAvailabilityEntity seatAvailability)
-        {
-            var seat = await _context.Seats
-                .FirstOrDefaultAsync(s => s.Id == seatId);
-
-            var seance = await _context.Seances
-                .FirstOrDefaultAsync(s => s.Id == seanceId);
-
-            seat?.SeatAvailabilities.Add(seatAvailability);
-            seance?.SeatAvailabilities.Add(seatAvailability);
-        }
         public async Task<TicketEntity> GetInfoForTicket(User user, int seatId, int seanceId, Guid paymentId)
         {
             var seat = await _context.Seats
-                .FirstOrDefaultAsync(s => s.Id == seatId);
+                .FirstOrDefaultAsync(s => s.Id == seatId) 
+                ?? throw new InvalidOperationException($"Данное место ({seatId}) не существует");
 
             var seance = await _context.Seances
-                .FirstOrDefaultAsync(s => s.Id == seanceId);
+                .FirstOrDefaultAsync(s => s.Id == seanceId)
+                ?? throw new InvalidOperationException($"Данный сеанс ({seanceId}) не существует");
 
             var hall = await _context.Halls
-                .FirstOrDefaultAsync(h => h.Id == seance.HallId);
+                .FirstOrDefaultAsync(h => h.Id == seance.HallId)
+                ?? throw new InvalidOperationException($"Данный зал ({seance.HallId}) не существует");
 
             var ticketEntity = new TicketEntity
             {
@@ -105,7 +97,8 @@ namespace CinemaTickets.Persistence.Repositories
             var ticket = await _context.Tickets
                 .Include(t => t.Seat)
                 .Include(t => t.Payment)
-                .FirstOrDefaultAsync(t => t.PaymentId == paymentId);
+                .FirstOrDefaultAsync(t => t.PaymentId == paymentId) 
+                ?? throw new ArgumentException("Билет найти не удалось");
 
             return _mapper.Map<Ticket>(ticket);
         }

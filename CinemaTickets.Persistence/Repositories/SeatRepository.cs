@@ -22,13 +22,18 @@ namespace CinemaTickets.Persistence.Repositories
                             .Where(s => s.HallId == hallId)
                             .ToListAsync();
 
+            if (!seats.Any())
+            {
+                throw new ArgumentException("Мест для указанного зала не найдено");
+            }
+
             return _mapper.Map<List<Seat>>(seats);
         }
         
-        public async Task<Seat> GetSeatsInfo(int seatId, int seanceId)
+        public async Task<Seat> GetSeatsInfo(int seatId)
         {
             var seat = await _context.Seats
-                            .FirstOrDefaultAsync(s => s.Id == seatId);
+                            .FirstOrDefaultAsync(s => s.Id == seatId) ?? throw new ArgumentException("Данное место не существует");
 
             return _mapper.Map<Seat>(seat);
         }
@@ -36,7 +41,8 @@ namespace CinemaTickets.Persistence.Repositories
         public async Task<SeatAvailability> GetSeatAvailability(int seatId, int seanceId)
         {
             var seatAvailability = await _context.SeatAvailabilities
-                    .FirstOrDefaultAsync(s => s.SeatId == seatId && s.SeanceId == seanceId);
+                    .FirstOrDefaultAsync(s => s.SeatId == seatId && s.SeanceId == seanceId) 
+                        ?? throw new ArgumentException("Данное место или сеанс не существует");
 
             return _mapper.Map<SeatAvailability>(seatAvailability);
         }
@@ -48,7 +54,7 @@ namespace CinemaTickets.Persistence.Repositories
                            .FirstOrDefaultAsync();
 
             if (seatAvailability == null)
-                throw new Exception("Место не найдено для указанного сеанса");
+                throw new ArgumentException("Место не найдено для указанного сеанса");
 
             seatAvailability.IsAvailable = isAvailable;
             _context.SaveChanges();
@@ -60,6 +66,9 @@ namespace CinemaTickets.Persistence.Repositories
                 .Where(s => s.Id == seatId)
                 .Select(s => s.Price)
                 .FirstOrDefaultAsync();
+
+            if (price == default) 
+                throw new InvalidOperationException("Цена для данного места не найдена или не была установлена");
 
             return price;
         }

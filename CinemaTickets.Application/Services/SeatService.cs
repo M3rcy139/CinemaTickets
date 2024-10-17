@@ -17,9 +17,9 @@ namespace CinemaTickets.Application.Services
 
             return seats;
         }
-        public async Task<Seat> GetSeatsInfo(int seatId, int seanceId)
+        public async Task<Seat> GetSeatsInfo(int seatId)
         {
-            var seat = await _seatRepository.GetSeatsInfo(seatId, seanceId);
+            var seat = await _seatRepository.GetSeatsInfo(seatId);
 
             return seat;
         }
