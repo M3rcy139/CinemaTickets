@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaTickets", "CinemaTickets\CinemaTickets.csproj", "{E150D170-4189-4833-89BD-D6F0D7DBBACE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CinemaTickets", "CinemaTickets\CinemaTickets.csproj", "{E150D170-4189-4833-89BD-D6F0D7DBBACE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaTickets.Core", "CinemaTickets.Core\CinemaTickets.Core.csproj", "{65E19507-6376-48DB-A7C6-08F5D4B1EE5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CinemaTickets.Core", "CinemaTickets.Core\CinemaTickets.Core.csproj", "{65E19507-6376-48DB-A7C6-08F5D4B1EE5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaTickets.Application", "CinemaTickets.Application\CinemaTickets.Application.csproj", "{18140719-1CA8-4507-BDD5-AD1AC8179161}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CinemaTickets.Application", "CinemaTickets.Application\CinemaTickets.Application.csproj", "{18140719-1CA8-4507-BDD5-AD1AC8179161}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaTickets.Persistence", "CinemaTickets.Persistence\CinemaTickets.Persistence.csproj", "{8D6440C0-6AFB-457C-B366-CFFFF0717AF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CinemaTickets.Persistence", "CinemaTickets.Persistence\CinemaTickets.Persistence.csproj", "{8D6440C0-6AFB-457C-B366-CFFFF0717AF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaTicketsWpf", "CinemaTicketsWpf\CinemaTicketsWpf.csproj", "{A3773969-5EB7-4627-98A9-A6F3093D5FB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{8D6440C0-6AFB-457C-B366-CFFFF0717AF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D6440C0-6AFB-457C-B366-CFFFF0717AF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D6440C0-6AFB-457C-B366-CFFFF0717AF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3773969-5EB7-4627-98A9-A6F3093D5FB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3773969-5EB7-4627-98A9-A6F3093D5FB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3773969-5EB7-4627-98A9-A6F3093D5FB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3773969-5EB7-4627-98A9-A6F3093D5FB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
