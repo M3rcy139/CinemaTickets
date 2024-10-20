@@ -19,6 +19,7 @@ namespace CinemaTicketsWpf
         private int _seanceId;
         private int _rows;
         private int _columns;
+        private Button _selectedSeatButton;
 
         public SeatSelectionWindow(int hallId, int seanceId, int row, int columns)
         {
@@ -42,7 +43,7 @@ namespace CinemaTicketsWpf
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading seats: {ex.Message}");
+                MessageBox.Show($"Ошибка загрузки мест: {ex.Message}");
             }
         }
 
@@ -51,8 +52,8 @@ namespace CinemaTicketsWpf
         {
             try
             {
-                int rows = _rows; 
-                int columns = _columns; 
+                int rows = _rows;
+                int columns = _columns;
 
                 SeatsGrid.RowDefinitions.Clear();
                 SeatsGrid.ColumnDefinitions.Clear();
@@ -105,7 +106,7 @@ namespace CinemaTicketsWpf
                     // Добавляем кнопку в сетку
                     SeatsGrid.Children.Add(seatButton);
                 }
-            }            
+            }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error loading seats: {ex.Message}");
@@ -115,8 +116,42 @@ namespace CinemaTicketsWpf
         // Метод обработки клика по месту
         private async void SeatButton_Click(object sender, RoutedEventArgs e)
         {
-            var seat = (SeatInfoResponse)((Button)sender).Tag;
+            _selectedSeatButton = (Button)sender;
+            var seat = (SeatInfoResponse)_selectedSeatButton.Tag;
+
+            // Сбрасываем цвет границы у всех кнопок
+            foreach (var child in SeatsGrid.Children)
+            {
+                if (child is Button button)
+                {
+                    button.BorderBrush = Brushes.Black;
+                }
+            }
+
+            // Устанавливаем синий цвет границы для выбранной кнопки
+            _selectedSeatButton.BorderBrush = Brushes.Blue;
+
             await LoadSeatInfo(seat.Id, _seanceId);  // Загружаем информацию о месте
+        }
+
+        private void OpenPaymentWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedSeatButton?.Tag is SeatInfoResponse seatInfo)
+            {
+                // Открываем окно оплаты и передаем информацию о выбранном месте и сеансе
+                var paymentWindow = new PaymentWindow(seatInfo.Id, _seanceId, seatInfo.Price);
+                paymentWindow.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Пожалуйста, выберите место для оплаты.");
+            }
+        }
+
+        private async void Support_Click(object sender, RoutedEventArgs e)
+        {
+            var supportWindow = new SupportWindow();
+            supportWindow.ShowDialog();
         }
 
         // Метод для получения информации о выбранном месте
@@ -125,7 +160,22 @@ namespace CinemaTicketsWpf
             try
             {
                 var seatInfo = await GetSeatInfo(seatId, seanceId);
-                SeatInfoTextBlock.Text = $"Row: {seatInfo.RowNumber}, Seat: {seatInfo.SeatNumber}, Price: {seatInfo.Price}, Available: {seatInfo.IsAvailable}";
+                RowInfo.Text = $"Ряд: {seatInfo.RowNumber}";
+                SeatInfo.Text = $"Место {seatInfo.SeatNumber}";
+                PriceInfo.Text = $"Стоимость: {seatInfo.Price} рублей";
+
+                string IsAvailable = "";
+
+                if (seatInfo.IsAvailable)
+                {
+                    IsAvailable = "Место доступно";
+                }
+                else
+                {
+                    IsAvailable = "Место недоступно";
+                }
+                AvailableInfo.Text = $"Доступность места: {IsAvailable}";
+
             }
             catch (Exception ex)
             {
@@ -145,7 +195,7 @@ namespace CinemaTicketsWpf
         // Метод для получения информации о конкретном месте
         private async Task<SeatInfoResponse> GetSeatInfo(int seatId, int seanceId)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"https://localhost:7109/api/seat/seat-info/seat{seatId}/seance/{seanceId}");
+            HttpResponseMessage response = await _httpClient.GetAsync($"https://localhost:7109/api/seat/seat-info/{seatId}/{seanceId}");
             response.EnsureSuccessStatusCode();
             string content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<SeatInfoResponse>(content);

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using CinemaTickets.Contracts.Response;
 using CinemaTickets.Core.Models;
+using CinemaTickets.Contracts.Request;
+using System.Text;
 
 namespace CinemaTicketsWpf
 {
@@ -16,6 +18,8 @@ namespace CinemaTicketsWpf
     {
         private HttpClient _httpClient;
         private Hall selectedHall;
+        private SeanceInfoResponse selectedSeance;
+        private List<SeanceInfoResponse> seances;
 
         public MainWindow()
         {
@@ -48,12 +52,27 @@ namespace CinemaTicketsWpf
             }
         }
 
+        private void SeancesComboBox_SeancesChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (SeancesComboBox.SelectedValue != null)
+            {
+                NameTextBlock.Text = "Название фильма:";
+                StartTimeTextBlock.Text = "Начало сеанса:";
+                DurationTextBlock.Text = "Продолжительность сеанса:";
+
+                selectedSeance = (SeanceInfoResponse)SeancesComboBox.SelectedItem;
+                NameTextBlock.Text += $" {selectedSeance.FilmName}";
+                StartTimeTextBlock.Text += $" {selectedSeance.StartTime.ToString()}";
+                DurationTextBlock.Text += $" {(selectedSeance.EndTime - selectedSeance.StartTime).ToString()}";
+            }
+        }
+
         // Метод для загрузки сеансов
         private async Task LoadSeances(int hallId)
         {
             try
             {
-                var seances = await GetSeances(hallId);
+                seances = await GetSeances(hallId);
                 SeancesComboBox.ItemsSource = seances;
                 SeancesComboBox.IsEnabled = true;
                 SelectSeatsButton.IsEnabled = true;
@@ -79,6 +98,13 @@ namespace CinemaTicketsWpf
                 seatSelectionWindow.Show();
                 this.Close();
             }
+            else MessageBox.Show("Выберите сеанс!");
+        }
+
+        private async void Support_Click(object sender, RoutedEventArgs e)
+        {
+            var supportWindow = new SupportWindow();
+            supportWindow.ShowDialog();
         }
 
         // Метод для получения списка залов

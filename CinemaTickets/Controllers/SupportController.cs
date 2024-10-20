@@ -7,8 +7,8 @@ namespace CinemaTickets.Controllers
     [ApiController]
     public class SupportController : ControllerBase
     {
-        [HttpPost("report-issue")]
-        public async Task<IActionResult> ReportIssue(string message, ISupportRepository supportRepository)
+        [HttpPost("report-issue/{message}")]
+        public async Task<IActionResult> ReportIssue([FromBody]string message, ISupportRepository supportRepository)
         {
             try
             {

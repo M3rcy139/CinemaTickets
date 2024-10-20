@@ -27,7 +27,7 @@ public class SeatController : ControllerBase
         }
     }
 
-    [HttpGet("seat-info/seat{seatId}/seance/{seanceId}")]
+    [HttpGet("seat-info/{seatId}/{seanceId}")]
     public async Task<IActionResult> GetSeatsInfo(int seatId, int seanceId, ISeatService seatService)
     {
         try

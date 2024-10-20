@@ -56,7 +56,7 @@ namespace CinemaTickets.Controllers
             }
         }
 
-        [HttpPost("GetTicket")]
+        [HttpGet("get-ticket/ticket/{paymentId}")]
         public async Task<IActionResult> GetTicket(Guid paymentId, IPaymentService paymentService)
         {
             try
